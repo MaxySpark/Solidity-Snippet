@@ -16,11 +16,17 @@ contract SimpleWallet is Mortal {
     }
 
     function sendFunds(address payable receiver, uint amountInWei) public {
-        if (permittedAddress[msg.sender].isAllowed) {
-            if (permittedAddress[msg.sender].maxTransferAmount <= amountInWei) {
-                receiver.transfer(amountInWei);
-            }
-        }
+        require(
+            permittedAddress[msg.sender].isAllowed,
+            'Address is Not Allowed To Send Fund'
+        );
+
+        require(
+            permittedAddress[msg.sender].maxTransferAmount >= amountInWei,
+            'Amount Must Be Smaller Than MaxTransferAmount'
+        );
+
+        receiver.transfer(amountInWei);
     }
 
     function removeAddressFromSendersList(address removeAddress) public {
