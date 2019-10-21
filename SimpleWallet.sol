@@ -32,4 +32,8 @@ contract SimpleWallet is Mortal {
     function removeAddressFromSendersList(address removeAddress) public {
         delete permittedAddress[removeAddress];
     }
+
+    function() external payable {
+
+    }
 }
